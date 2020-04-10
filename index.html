@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <link href="styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <div class="settings">
+        <input type="checkbox" id="year-type">Most recent year<br /><br />
+        <label>Data type</label>
+        <select id="data-type">
+            <option value="cases">Cases</option>
+            <option value="deaths">Deaths</option>
+        </select>
+    </div>
+    <div class="info">
+        <p>COVID-19 data from <a href="https://ourworldindata.org/coronavirus-source-data">here</a></p>
+        <p>Population data from <a href="https://datahub.io/core/population">here</a></p>
+    </div>
     <div class="main">
-        <h1 id="current-cases">CURRENT CASES: </h1>
-        <h1 id="reference">LIKE </h1>
+        <p id="current-data">CURRENT []: </p>
+        <p id="reference">LIKE </p>
     </div>
     <script src="main.js"></script>
 </body>

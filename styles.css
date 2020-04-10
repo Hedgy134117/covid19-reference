@@ -1,4 +1,29 @@
+body {
+    background-color: #2D2926FF;
+    color: #E94B3CFF;
+    font-family: 'Oswald', sans-serif;
+
+    margin: 16px;
+    margin-top: 4px;
+}
+
+a {
+    color: #E94B3CFF;
+    text-decoration: underline;
+}
+
+.settings {
+    float: left;
+}
+
+.info {
+    float: right;
+}
+
 .main {
+    font-size: 72px;
+    overflow: visible;
+
     margin: 0;
     position: absolute;
     top: 50%;
