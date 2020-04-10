@@ -69,5 +69,5 @@ function estimate(total) {
         }
     }
 
-    document.getElementById('reference').innerHTML = "LIKE <b>" + bestEstimateCountry.toUpperCase() + "</b> IN " + bestEstimateYear + " WITH A POPULATION OF <b>" + bestEstimatePopulation + "</b>";
+    document.getElementById('reference').innerHTML = "LIKE THE POPULATION OF <b>" + bestEstimateCountry.toUpperCase() + "</b> IN " + bestEstimateYear + "; <b>" + bestEstimatePopulation + "</b>";
 }
