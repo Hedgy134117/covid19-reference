@@ -21,7 +21,7 @@ function getData() {
             casesRequest.send(null);
             var casesData = casesRequest.responseText.split('\n');
             var casesTotal = casesData[casesData.length - 2].split(',')[1];
-            document.getElementById('current-data').innerHTML = "CURRENT CASES: <b>" + casesTotal + "</b>";
+            document.getElementById('current-data').innerHTML = "CURRENT COVID-19 CASES: <b>" + casesTotal + "</b>";
             return casesTotal;
             break;
         
@@ -32,7 +32,7 @@ function getData() {
             deathsRequest.send(null);
             var deathsData = deathsRequest.responseText.split('\n');
             var deathsTotal = deathsData[deathsData.length - 2].split(',')[1];
-            document.getElementById('current-data').innerHTML = "CURRENT DEATHS: <b>" + deathsTotal + "</b>";
+            document.getElementById('current-data').innerHTML = "CURRENT COVID-19 DEATHS: <b>" + deathsTotal + "</b>";
             return deathsTotal;
             break;
     }
@@ -69,5 +69,5 @@ function estimate(total) {
         }
     }
 
-    document.getElementById('reference').innerHTML = "LIKE THE POPULATION OF <b>" + bestEstimateCountry.toUpperCase() + "</b> IN " + bestEstimateYear + "; <b>" + bestEstimatePopulation + "</b>";
+    document.getElementById('reference').innerHTML = "LIKE THE POPULATION OF <b>" + bestEstimateCountry.toUpperCase() + "</b> IN " + bestEstimateYear + ": <b>" + bestEstimatePopulation + "</b>";
 }
