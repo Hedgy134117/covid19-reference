@@ -1,12 +1,60 @@
+data = {
+  "population": null,
+  "codes": null,
+  "current": null,
+  "mostRecentYear": false,
+  "estimate": null,
+};
+
 window.onload = async () => {
+  await startup();
+
+  document.querySelector("#data-type").addEventListener("change", async function () {
+    switch (this.value) {
+      case "cases":
+        let cases = await getCasesData();
+        let totalCases = getTotalCases(cases);
+        data.current = totalCases;
+        estimate();
+        break;
+      case "deaths":
+        let deaths = await getDeathsData();
+        let totalDeaths = getTotalDeaths(deaths);
+        data.current = totalDeaths;
+        estimate();
+        break;
+      case "vaccinations":
+        let vaccinations = await getVaccinationsData();
+        let totalVaccinations = getTotalVaccinations(vaccinations);
+        data.current = totalVaccinations;
+        estimate();
+        break;
+    }
+  });
+
+  document.querySelector("#year-type").addEventListener("change", async function () {
+    data.mostRecentYear = this.checked;
+    estimate();
+  });
+}
+
+const startup = async () => {
   let pop = await getPopulationData();
+  data.population = pop;
   let codes = await getCountryCodes();
+  data.codes = codes;
   let cases = await getCasesData();
   let totalCases = getTotalCases(cases);
+  data.current = totalCases;
   let estimate = estimateCountry(pop, totalCases, codes);
+  data.estimate = estimate;
+  updateHTML(totalCases, estimate);
+}
 
-  document.querySelector("#current-data").innerHTML = `CURRENT: <b>${totalCases}</b>`
-  document.querySelector("#reference").innerHTML = `LIKE THE POPULATION OF <b>${estimate.country.toUpperCase()}</b> IN ${estimate.year} : <b>${estimate.population}</b>`;
+const estimate = () => {
+  let estimate = estimateCountry(data.population, data.current, data.codes, data.mostRecentYear);
+  data.estimate = estimate;
+  updateHTML(data.current, estimate);
 }
 
 const getPopulationData = async () => {
@@ -32,6 +80,8 @@ const getCasesData = async () => {
   let cases = await fetch(casesSource).then(res => res.json());
   return cases;
 }
+const getDeathsData = getCasesData;
+const getVaccinationsData = getCasesData;
 
 const getTotalCases = casesJSON => {
   let total = 0;
@@ -45,7 +95,31 @@ const getTotalCases = casesJSON => {
   return total;
 }
 
-const estimateCountry = (populations, numberToCompare, codes) => {
+const getTotalDeaths = deathsJSON => {
+  let total = 0;
+  for (let country in deathsJSON) {
+    // Prevent double counting / adding the cases of a continent
+    if (deathsJSON[country].continent == null) {
+      continue;
+    }
+    total += deathsJSON[country].total_deaths;
+  }
+  return total;
+}
+
+const getTotalVaccinations = vaccinationsJSON => {
+  let total = 0;
+  for (let country in vaccinationsJSON) {
+    // Prevent double counting / adding the cases of a continent
+    if (vaccinationsJSON[country].continent == null) {
+      continue;
+    }
+    total += vaccinationsJSON[country].total_vaccinations;
+  }
+  return total;
+}
+
+const estimateCountry = (populations, numberToCompare, codes, mostRecentYear) => {
   let bestEstimate = {
     "difference": 9999999999,
     "country": "",
@@ -64,6 +138,10 @@ const estimateCountry = (populations, numberToCompare, codes) => {
     if (parseInt(year) > new Date().getFullYear()) {
       continue
     }
+    // if the year matters
+    if (mostRecentYear && parseInt(year) != new Date().getFullYear()) {
+      continue;
+    }
     let code = country[0]
     // prevent comparing continents / regions
     if (codes.includes(code) == false) {
@@ -80,9 +158,30 @@ const estimateCountry = (populations, numberToCompare, codes) => {
         "population": population,
         "year": year
       };
-      console.log(bestEstimate);
     }
   }
 
   return bestEstimate;
+}
+
+const updateHTML = (current, estimate) => {
+  document.querySelector("#current-data").innerHTML = `CURRENT: <b>${addCommasToNum(current)}</b>`
+  document.querySelector("#reference").innerHTML = `LIKE THE POPULATION OF <b>${estimate.country.toUpperCase()}</b> IN ${estimate.year} : <b>${addCommasToNum(estimate.population)}</b>`;
+}
+
+const addCommasToNum = num => {
+  let numToString = num.toString();
+  if (num < 1000) {
+    return numToString;
+  }
+
+  let divisor = numToString.length % 3;
+  let string = "";
+  for (let i = 0; i < numToString.length; i++) {
+    if (i != 0 && i % 3 == divisor) {
+      string += ",";
+    }
+    string += numToString.charAt(i);
+  }
+  return string;
 }
