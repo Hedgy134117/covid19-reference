@@ -58,7 +58,7 @@ const estimate = () => {
 }
 
 const getPopulationData = async () => {
-  let popSource = "./pop-data.csv"
+  let popSource = "./data/pop-data.csv"
   let pop = await fetch(popSource).then(res => res.text());
   pop = pop.split("\n");
   pop = pop.map(line => line.split(","));
@@ -66,7 +66,7 @@ const getPopulationData = async () => {
 }
 
 const getCountryCodes = async () => {
-  let codesSource = "./country-codes.json";
+  let codesSource = "./data/country-codes.json";
   let codesObject = await fetch(codesSource).then(res => res.json());
   let codes = [];
   for (let country in codesObject) {
