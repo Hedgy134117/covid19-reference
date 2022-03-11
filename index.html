@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <link href="styles.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
     <div class="settings">
         <input type="checkbox" id="year-type">Most recent year<br /><br />
@@ -17,8 +19,8 @@
         </select>
     </div>
     <div class="info">
-        <p>COVID-19 data from <a href="https://ourworldindata.org/coronavirus-source-data">here</a></p>
-        <p>Population data from <a href="https://datahub.io/core/population">here</a></p>
+        <p>COVID-19 data from <a href="https://github.com/owid/covid-19-data/tree/master/public/data">here</a></p>
+        <p>Population data from <a href="https://population.un.org/wpp/Download/Standard/CSV/">here</a></p>
     </div>
     <div class="main">
         <p id="current-data">CURRENT []: </p>
@@ -28,12 +30,14 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-159056260-2"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-    gtag('config', 'UA-159056260-2');
+        gtag('config', 'UA-159056260-2');
     </script>
-    <script src="main.js"></script>
+    <!-- <script src="main.js"></script> -->
+    <script src="script.js"></script>
 </body>
+
 </html>
